@@ -12,13 +12,10 @@ export class Commands {
 
         python.stdout.on('data', (data) => {
             console.log('stdout:');
-
-            const array: Number[] = JSON.parse(data.toString())
-            array.push(12)
-            console.log(array);
+            console.log(JSON.parse(data.toString()));
         })
         python.stderr.on('data', (data) => {
-            console.error('stderr: ' + typeof data);
+            console.error('stderr: ' + data);
         })
         python.on('close', (data) => {
             console.log('terminated with ' + data);
