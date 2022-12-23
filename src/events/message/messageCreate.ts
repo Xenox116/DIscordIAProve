@@ -13,7 +13,7 @@ export default new EventBuilder('messageCreate').setCallback(
         if (interaction.author.bot || interaction.author.system) return;
         message = interaction.content;
         
-        if (!message.startsWith('<')) return;
+        if (!message.startsWith('º')) return;
 
         console.log(message);
 
@@ -21,10 +21,10 @@ export default new EventBuilder('messageCreate').setCallback(
         member = interaction.member!;
         member;
 
-        if (command[0] === 'test') {
+        if (command[0] === 'train') {
             if (command.length !== 1) return;
 
-            return Commands.test();
+            return Commands.train(interaction);
         }
 
         if (command[0] === 'ping') {

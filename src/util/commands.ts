@@ -1,18 +1,29 @@
 import { spawn } from "child_process";
+import type { Message } from 'discord.js';
 
 export class Commands {
 
     private static pythonPath: String = 'src/util/python/';
 
-    static test() {
+    static train(interaction: Message) {
 
-        const aux: Number[] = [1,3,4];
+        const aux: number[] = [];
 
-        const python = spawn('python', [this.pythonPath + 'test.py', JSON.stringify(aux)])
+        const send: string = JSON.stringify(aux);
 
-        python.stdout.on('data', (data) => {
-            console.log('stdout:');
-            console.log(JSON.parse(data.toString()));
+        const python = spawn('python', [this.pythonPath + 'train.py', send])
+
+        python.stdout.on('data', (data: string) => {
+
+            if (data.toString().startsWith('[')) {
+
+                const res: number[] = JSON.parse(data.toString());
+                const perc: number = Number((res[0]! * 100).toFixed(2));
+                interaction.reply('Precision de entrenamiento: ' + perc + '%');
+            } else {
+                console.log(data.toString());
+            }
+
         })
         python.stderr.on('data', (data) => {
             console.error('stderr: ' + data);
